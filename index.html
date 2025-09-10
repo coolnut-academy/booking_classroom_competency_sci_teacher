@@ -1445,6 +1445,9 @@
                 <button type="button" class="btn" onclick="showStatistics()" style="background: #38a169; margin-top: 10px;">
                     📊 ดูสถิติการจองห้อง
                 </button>
+                <button type="button" class="btn" onclick="showTeacherDetails()" style="background: #3182ce; margin-top: 10px;">
+                    📋 รายละเอียดการจองของครู
+                </button>
                 <div id="connection-status" style="margin-top: 15px; padding: 10px; border-radius: 8px; font-size: 14px;">
                     🔄 กำลังตรวจสอบการเชื่อมต่อ...
                 </div>
@@ -1461,6 +1464,34 @@
                         ครูกลุ่มสาระวิทยาศาสตร์และเทคโนโลยี
                     </p>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Teacher Details Page -->
+    <div id="teacher-details-page" class="hidden">
+        <button class="back-to-login" onclick="backToLogin()">← กลับหน้า Login</button>
+        
+        <div class="stats-container">
+            <div class="stats-header">
+                <h1>📋 รายละเอียดการจองของครู</h1>
+                <p>แสดงข้อมูลรายบุคคลจากฐานข้อมูล Google Sheets</p>
+            </div>
+
+            <div id="teacher-list">
+                <!-- รายการครูจะแสดงที่นี่ด้วย JavaScript -->
+            </div>
+
+            <div style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.8); border-radius: 16px; backdrop-filter: blur(10px);">
+                <p style="font-size: 13px; color: #64748b; margin-bottom: 8px;">
+                    <strong>พัฒนาเว็บไซต์โดย:</strong>
+                </p>
+                <p style="font-size: 14px; color: #2d3748; font-weight: 500; margin-bottom: 4px;">
+                    👨‍💻 นายสาธิต ศิริวัชน์
+                </p>
+                <p style="font-size: 12px; color: #718096;">
+                    ครูกลุ่มสาระวิทยาศาสตร์และเทคโนโลยี
+                </p>
             </div>
         </div>
     </div>
@@ -2179,7 +2210,10 @@
         }
 
         function backToLogin() {
-            document.getElementById('statistics-page').classList.add('hidden');
+            const statsPage = document.getElementById('statistics-page');
+            const detailsPage = document.getElementById('teacher-details-page');
+            if (statsPage) statsPage.classList.add('hidden');
+            if (detailsPage) detailsPage.classList.add('hidden');
             document.getElementById('login-page').classList.remove('hidden');
         }
 
@@ -2191,6 +2225,70 @@
 
             generateSummaryStats();
             generateGradeStats();
+        }
+
+        // Show teacher details page
+        async function showTeacherDetails() {
+            showLoading('กำลังโหลดข้อมูลครู', 'กำลังดึงข้อมูลจาก Google Sheets', 'วิเคราะห์ข้อมูล');
+            try {
+                document.getElementById('login-page').classList.add('hidden');
+                document.getElementById('teacher-details-page').classList.remove('hidden');
+
+                if (allTeachers.length === 0) {
+                    await loadTeachersData();
+                }
+
+                generateTeacherDetailsList();
+
+                // UX: simulate slight delay
+                await new Promise(resolve => setTimeout(resolve, 600));
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Render teacher details list
+        function generateTeacherDetailsList() {
+            const container = document.getElementById('teacher-list');
+            if (!container) return;
+
+            if (allTeachers.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #718096;">ไม่มีข้อมูลครู</p>';
+                return;
+            }
+
+            const teachersSorted = [...allTeachers].sort((a, b) => {
+                // Sort by name (Thai aware if available)
+                try { return a.name.localeCompare(b.name, 'th'); } catch (_) { return a.name.localeCompare(b.name); }
+            });
+
+            const html = teachersSorted.map(t => {
+                const roomsText = (t.bookedRooms && t.bookedRooms.length > 0)
+                    ? t.bookedRooms.map(r => `ม.${r}`).join(', ')
+                    : 'ยังไม่ได้จอง';
+
+                let other = '-';
+                if (t.subjectInfo) {
+                    const parts = [];
+                    if (t.subjectInfo.subject) parts.push(`วิชา: ${t.subjectInfo.subject}`);
+                    if (t.subjectInfo.notes) parts.push(`หมายเหตุ: ${t.subjectInfo.notes}`);
+                    if (t.subjectInfo.timestamp) parts.push(`${t.subjectInfo.timestamp}`);
+                    other = parts.join(' | ') || '-';
+                } else if (t.lastUpdated) {
+                    other = t.lastUpdated;
+                }
+
+                return `
+                    <div class="summary-item">
+                        <p><strong>รหัสของคุณครู:</strong> ${t.code}</p>
+                        <p><strong>ชื่อ-นามสกุลของคุณครู:</strong> ${t.name}</p>
+                        <p><strong>ห้องที่จอง:</strong> ${roomsText}</p>
+                        <p><strong>รายละเอียดอื่น:</strong> ${other}</p>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = html;
         }
 
         function generateSummaryStats() {
