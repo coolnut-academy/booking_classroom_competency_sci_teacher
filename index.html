@@ -1,58 +1,136 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <title>เว็บไซต์สำหรับการจองห้องเรียนเพื่อประเมินสมรรถนะ ตามหลักสูตรฐานสมรรถนะ</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ===== Design System ===== */
+        :root {
+            --vh: 1vh;
+            /* Primary palette */
+            --primary-50: #eef2ff;
+            --primary-100: #e0e7ff;
+            --primary-200: #c7d2fe;
+            --primary-400: #818cf8;
+            --primary-500: #6366f1;
+            --primary-600: #4f46e5;
+            --primary-700: #4338ca;
+            --primary-800: #3730a3;
+            /* Accent */
+            --accent-400: #34d399;
+            --accent-500: #10b981;
+            --accent-600: #059669;
+            /* Danger */
+            --danger-400: #f87171;
+            --danger-500: #ef4444;
+            --danger-600: #dc2626;
+            /* Neutral */
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            /* Surfaces */
+            --surface: rgba(255, 255, 255, 0.82);
+            --surface-hover: rgba(255, 255, 255, 0.95);
+            --surface-border: rgba(255, 255, 255, 0.45);
+            /* Radius */
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 22px;
+            --radius-xl: 28px;
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.10);
+            --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.13);
+            /* Transitions */
+            --ease-out: cubic-bezier(.22, 1, .36, 1);
+            --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         /* Prevent text selection on interactive elements */
-        button, .room-item, .tab, .room-tag {
+        button,
+        .room-item,
+        .tab,
+        .room-tag {
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
         }
-        
+
         /* Prevent tap highlight on iOS */
-        button, .room-item, .tab, .back-to-login {
+        button,
+        .room-item,
+        .tab,
+        .back-to-login {
             -webkit-tap-highlight-color: transparent;
         }
-        
-        /* Smooth scrolling */
+
         html {
             scroll-behavior: smooth;
-        }
-        
-        /* CSS Custom Properties for dynamic viewport */
-        :root {
-            --vh: 1vh;
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #e0e7ff 0%, #dbeafe 30%, #ede9fe 60%, #e0e7ff 100%);
+            background-attachment: fixed;
             min-height: 100vh;
-            min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
-            color: #2d3748;
+            min-height: 100dvh;
+            color: var(--gray-800);
             line-height: 1.6;
-            /* Safe area support for iOS devices */
             padding-left: env(safe-area-inset-left);
             padding-right: env(safe-area-inset-right);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Page-enter animation */
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            animation: fadeSlideUp .45s var(--ease-out) both;
         }
 
         /* Login Page Styles */
@@ -61,36 +139,41 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            min-height: calc(var(--vh, 1vh) * 100); /* Dynamic viewport height */
+            min-height: calc(var(--vh, 1vh) * 100);
             padding: 20px;
             padding-top: max(20px, env(safe-area-inset-top));
             padding-bottom: max(20px, env(safe-area-inset-bottom));
+            animation: fadeIn .5s var(--ease-out) both;
         }
 
         .login-card {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
+            background: var(--surface);
+            backdrop-filter: blur(24px) saturate(1.6);
+            -webkit-backdrop-filter: blur(24px) saturate(1.6);
+            border-radius: var(--radius-xl);
             padding: 48px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: var(--shadow-xl), 0 0 0 1px var(--surface-border);
+            border: 1px solid var(--surface-border);
             text-align: center;
-            max-width: 450px;
+            max-width: 460px;
             width: 100%;
+            animation: fadeSlideUp .55s var(--ease-out) .1s both;
         }
 
         .login-card h1 {
-            color: #1a202c;
-            font-size: 2.25rem;
+            color: var(--gray-900);
+            font-size: clamp(1.6rem, 5vw, 2.25rem);
             margin-bottom: 8px;
-            font-weight: 600;
-            letter-spacing: -0.025em;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.25;
         }
 
         .login-card p {
-            color: #718096;
-            font-size: 1.1rem;
-            margin-bottom: 40px;
+            color: var(--gray-500);
+            font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+            margin-bottom: 36px;
+            line-height: 1.55;
         }
 
         .login-form {
@@ -98,85 +181,99 @@
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 22px;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: #4a5568;
-            font-size: 1.1rem;
+            color: var(--gray-700);
+            font-size: 0.95rem;
         }
 
         .form-group input {
             width: 100%;
-            padding: 16px 20px;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
+            padding: 14px 18px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: var(--radius-md);
             font-size: 16px;
-            transition: all 0.2s ease;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
+            transition: border-color .25s, box-shadow .25s, background .25s;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: #5a67d8;
-            box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.08);
-            background: rgba(255, 255, 255, 0.95);
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+            background: #fff;
         }
 
         .btn {
-            background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%);
+            background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-500) 100%);
             color: white;
-            padding: 16px 32px;
+            padding: 15px 32px;
             border: none;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: 500;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: transform .25s var(--ease-spring), box-shadow .3s, background .3s;
             width: 100%;
             margin-top: 10px;
-            letter-spacing: 0.025em;
+            letter-spacing: 0.02em;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 25px rgba(90, 103, 216, 0.25);
-            background: linear-gradient(135deg, #4c51bf 0%, #5a67d8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(99, 102, 241, 0.3);
+            background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-600) 100%);
         }
 
         .btn:active {
-            transform: translateY(0);
+            transform: translateY(0) scale(0.98);
+            transition-duration: .08s;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
         }
 
         /* Main App Styles */
         .header {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 32px;
-            text-align: center;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--surface);
+            backdrop-filter: blur(24px) saturate(1.5);
+            -webkit-backdrop-filter: blur(24px) saturate(1.5);
+            border-radius: var(--radius-lg);
+            padding: 28px 32px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--surface-border);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 16px;
+            animation: fadeSlideUp .45s var(--ease-out) both;
         }
 
         .header-content h1 {
-            color: #4a5568;
-            font-size: 2.2rem;
-            margin-bottom: 5px;
+            color: var(--gray-800);
+            font-size: clamp(1.2rem, 3.5vw, 1.75rem);
+            margin-bottom: 4px;
             font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
         .header-content p {
-            color: #718096;
-            font-size: 1.1rem;
+            color: var(--gray-500);
+            font-size: clamp(0.8rem, 2vw, 0.95rem);
         }
 
         .user-info {
@@ -184,54 +281,59 @@
         }
 
         .user-info h3 {
-            color: #4a5568;
-            margin-bottom: 5px;
+            color: var(--gray-700);
+            margin-bottom: 4px;
+            font-size: clamp(0.85rem, 2vw, 1rem);
         }
 
         .logout-btn {
-            background: #e53e3e;
+            background: var(--danger-500);
             color: white;
-            padding: 8px 16px;
+            padding: 8px 18px;
             border: none;
-            border-radius: 8px;
-            font-size: 14px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background .2s, transform .2s var(--ease-spring);
         }
 
         .logout-btn:hover {
-            background: #c53030;
+            background: var(--danger-600);
+            transform: translateY(-1px);
         }
 
         .tab-container {
             display: flex;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 8px;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--surface);
+            backdrop-filter: blur(20px) saturate(1.4);
+            -webkit-backdrop-filter: blur(20px) saturate(1.4);
+            border-radius: var(--radius-lg);
+            padding: 6px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--surface-border);
+            animation: fadeSlideUp .45s var(--ease-out) .05s both;
         }
 
         .tab {
             flex: 1;
-            padding: 16px 20px;
+            padding: 14px 20px;
             background: transparent;
             border: none;
-            border-radius: 16px;
-            font-size: 15px;
-            font-weight: 500;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
-            color: #64748b;
-            letter-spacing: 0.025em;
+            transition: all .3s var(--ease-out);
+            color: var(--gray-500);
+            letter-spacing: 0.01em;
         }
 
         .tab.active {
-            background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%);
+            background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-500) 100%);
             color: white;
-            box-shadow: 0 2px 8px rgba(90, 103, 216, 0.25);
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
         }
 
         .tab-content {
@@ -240,98 +342,107 @@
 
         .tab-content.active {
             display: block;
+            animation: fadeSlideUp .35s var(--ease-out) both;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 32px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-bottom: 24px;
+            background: var(--surface);
+            backdrop-filter: blur(24px) saturate(1.5);
+            -webkit-backdrop-filter: blur(24px) saturate(1.5);
+            border-radius: var(--radius-lg);
+            padding: 28px 32px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--surface-border);
+            margin-bottom: 20px;
+            animation: fadeSlideUp .45s var(--ease-out) .1s both;
         }
 
         .card h2 {
-            color: #2d3748;
-            font-size: 1.8rem;
-            margin-bottom: 25px;
+            color: var(--gray-800);
+            font-size: clamp(1.3rem, 3vw, 1.6rem);
+            margin-bottom: 22px;
             display: flex;
             align-items: center;
             gap: 10px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
         }
 
         .icon {
-            font-size: 2rem;
+            font-size: 1.6rem;
         }
 
         /* Room Selection Styles */
         .room-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 10px;
             margin-bottom: 24px;
         }
 
         .room-item {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 16px 12px;
+            background: rgba(255, 255, 255, 0.75);
+            border: 1.5px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            padding: 14px 10px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: transform .25s var(--ease-spring), box-shadow .25s, background .2s, border-color .2s;
             user-select: none;
             position: relative;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .room-item:hover {
-            background: rgba(255, 255, 255, 0.95);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            background: var(--surface-hover);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
         }
 
         .room-item.selected {
-            background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%);
+            background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-500) 100%);
             color: white;
-            border-color: #5a67d8;
-            box-shadow: 0 4px 12px rgba(90, 103, 216, 0.25);
+            border-color: var(--primary-500);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+            transform: translateY(-2px);
         }
 
         .room-item.booked {
-            background: rgba(254, 215, 215, 0.8);
-            border-color: #fca5a5;
-            backdrop-filter: blur(10px);
+            background: rgba(254, 226, 226, 0.7);
+            border-color: var(--danger-400);
         }
 
         .room-item.booked.selected {
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            background: linear-gradient(135deg, var(--danger-600) 0%, var(--danger-500) 100%);
             color: white;
-            border-color: #dc2626;
-            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+            border-color: var(--danger-500);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
         }
 
         .room-item h3 {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 3px;
         }
 
         .room-item p {
-            font-size: 0.8rem;
-            opacity: 0.8;
+            font-size: 0.75rem;
+            opacity: 0.7;
         }
 
         .room-status {
-            font-size: 0.7rem;
-            margin-top: 5px;
-            padding: 3px 6px;
-            border-radius: 8px;
-            background: rgba(0,0,0,0.1);
+            font-size: 0.65rem;
+            font-weight: 500;
+            margin-top: 6px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.06);
+            display: inline-block;
         }
 
         .room-item.selected .room-status {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.22);
         }
 
         .room-tooltip {
@@ -341,6 +452,7 @@
             transform: translateX(-50%);
             background: rgba(45, 55, 72, 0.95);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             color: white;
             padding: 12px 16px;
             border-radius: 12px;
@@ -372,91 +484,121 @@
         }
 
         .selected-rooms {
-            background: rgba(230, 255, 250, 0.8);
-            border: 1px solid #81e6d9;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
+            background: rgba(236, 253, 245, 0.7);
+            border: 1.5px solid var(--accent-400);
+            border-radius: var(--radius-md);
+            padding: 18px;
+            margin-bottom: 18px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .selected-rooms h4 {
-            color: #2d3748;
-            margin-bottom: 15px;
+            color: var(--gray-800);
+            margin-bottom: 12px;
+            font-size: 0.95rem;
         }
 
         .selected-room-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
 
         .room-tag {
-            background: #4fd1c7;
+            background: linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%);
             color: white;
-            padding: 8px 15px;
+            padding: 7px 14px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 13px;
+            font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            transition: transform .2s var(--ease-spring);
+        }
+
+        .room-tag:hover {
+            transform: scale(1.05);
         }
 
         .room-tag .remove {
             cursor: pointer;
             font-weight: bold;
-            padding: 2px 6px;
+            padding: 1px 5px;
             background: rgba(255, 255, 255, 0.3);
             border-radius: 50%;
+            font-size: 12px;
+            transition: background .15s;
+        }
+
+        .room-tag .remove:hover {
+            background: rgba(255, 255, 255, 0.5);
         }
 
         /* Summary Styles */
         .summary-item {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 16px;
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.75);
+            border: 1.5px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            padding: 22px;
+            margin-bottom: 14px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: transform .2s var(--ease-spring), box-shadow .2s;
+        }
+
+        .summary-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .summary-item h4 {
-            color: #2d3748;
+            color: var(--gray-800);
             margin-bottom: 10px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .summary-item p {
-            color: #718096;
+            color: var(--gray-600);
             margin-bottom: 5px;
+            font-size: 0.93rem;
         }
 
         .error-message {
-            background: rgba(254, 215, 215, 0.9);
-            color: #b91c1c;
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+            background: rgba(254, 226, 226, 0.85);
+            color: #991b1b;
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 18px;
             display: none;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(252, 165, 165, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1.5px solid rgba(239, 68, 68, 0.25);
+            font-size: 0.9rem;
+            font-weight: 500;
+            animation: fadeSlideUp .3s var(--ease-out) both;
         }
 
         .success-message {
-            background: rgba(198, 246, 213, 0.9);
-            color: #166534;
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+            background: rgba(209, 250, 229, 0.85);
+            color: #065f46;
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 18px;
             display: none;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(134, 239, 172, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1.5px solid rgba(52, 211, 153, 0.3);
+            font-size: 0.9rem;
+            font-weight: 500;
+            animation: fadeSlideUp .3s var(--ease-out) both;
         }
 
         .loading {
             text-align: center;
             padding: 40px;
-            color: #718096;
+            color: var(--gray-400);
         }
 
         /* Loading Animations */
@@ -486,9 +628,17 @@
             animation: loadingDots 1.4s ease-in-out infinite both;
         }
 
-        .loading-dot:nth-child(1) { animation-delay: -0.32s; }
-        .loading-dot:nth-child(2) { animation-delay: -0.16s; }
-        .loading-dot:nth-child(3) { animation-delay: 0s; }
+        .loading-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .loading-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        .loading-dot:nth-child(3) {
+            animation-delay: 0s;
+        }
 
         @keyframes spin {
             to {
@@ -497,10 +647,14 @@
         }
 
         @keyframes loadingDots {
-            0%, 80%, 100% {
+
+            0%,
+            80%,
+            100% {
                 transform: scale(0.8);
                 opacity: 0.5;
             }
+
             40% {
                 transform: scale(1);
                 opacity: 1;
@@ -513,15 +667,16 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(4px);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: opacity .3s, visibility .3s;
         }
 
         .loading-overlay.show {
@@ -530,14 +685,16 @@
         }
 
         .loading-content {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 32px 48px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--surface);
+            backdrop-filter: blur(24px) saturate(1.5);
+            -webkit-backdrop-filter: blur(24px) saturate(1.5);
+            border-radius: var(--radius-lg);
+            padding: 36px 48px;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--surface-border);
             text-align: center;
             max-width: 400px;
+            animation: fadeSlideUp .4s var(--ease-out) both;
         }
 
         .loading-content h3 {
@@ -586,19 +743,19 @@
 
         /* Edit and Delete Button Styles */
         .btn.edit {
-            background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
         }
 
         .btn.edit:hover {
-            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+            background: linear-gradient(135deg, #d97706 0%, #ea580c 100%);
         }
 
         .btn.delete {
-            background: linear-gradient(135deg, #fc8181 0%, #e53e3e 100%);
+            background: linear-gradient(135deg, var(--danger-500) 0%, var(--danger-600) 100%);
         }
 
         .btn.delete:hover {
-            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+            background: linear-gradient(135deg, var(--danger-600) 0%, #b91c1c 100%);
         }
 
         .action-buttons {
@@ -616,232 +773,233 @@
         }
 
         /* Mobile First Approach */
-        
+
         /* Extra Small Devices (phones, 320px and up) */
         @media (max-width: 480px) {
             .container {
                 padding: 12px;
             }
-            
+
             .login-card {
                 padding: 24px;
                 margin: 12px;
                 max-width: calc(100vw - 24px);
             }
-            
+
             .login-card h1 {
                 font-size: 1.75rem;
                 line-height: 1.3;
                 margin-bottom: 12px;
             }
-            
+
             .login-card p {
                 font-size: 0.95rem;
                 margin-bottom: 24px;
                 line-height: 1.4;
             }
-            
+
             .form-group input {
                 padding: 14px 16px;
-                font-size: 16px; /* Prevent zoom on iOS */
+                font-size: 16px;
+                /* Prevent zoom on iOS */
             }
-            
+
             .btn {
                 padding: 14px 24px;
                 font-size: 15px;
             }
-            
+
             .header {
                 flex-direction: column;
                 text-align: center;
                 gap: 16px;
                 padding: 20px;
             }
-            
+
             .header-content h1 {
                 font-size: 1.5rem;
                 line-height: 1.3;
             }
-            
+
             .header-content p {
                 font-size: 0.9rem;
             }
-            
+
             .tab-container {
                 padding: 6px;
             }
-            
+
             .tab {
                 padding: 12px 8px;
                 font-size: 14px;
             }
-            
+
             .card {
                 padding: 20px;
                 margin-bottom: 16px;
             }
-            
+
             .card h2 {
                 font-size: 1.4rem;
                 margin-bottom: 16px;
             }
-            
+
             .room-grid {
                 grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
                 gap: 8px;
             }
-            
+
             .room-item {
                 padding: 12px 8px;
                 min-height: 80px;
             }
-            
+
             .room-item h3 {
                 font-size: 0.95rem;
                 margin-bottom: 4px;
             }
-            
+
             .room-item p {
                 font-size: 0.75rem;
             }
-            
+
             .room-status {
                 font-size: 0.65rem;
                 padding: 2px 4px;
             }
-            
+
             .selected-rooms {
                 padding: 16px;
                 margin-bottom: 16px;
             }
-            
+
             .selected-room-tags {
                 justify-content: center;
                 gap: 6px;
             }
-            
+
             .room-tag {
                 padding: 6px 12px;
                 font-size: 13px;
             }
-            
+
             .modal-content {
                 padding: 20px;
                 margin: 20px;
                 max-width: calc(100vw - 40px);
             }
-            
+
             .modal-header h3 {
                 font-size: 1.2rem;
             }
-            
+
             .modal-header p {
                 font-size: 0.9rem;
             }
-            
+
             .modal-buttons {
                 flex-direction: column;
                 gap: 10px;
             }
-            
+
             .modal-btn {
                 width: 100%;
                 padding: 12px 20px;
             }
-            
+
             .stats-container {
                 padding: 12px;
             }
-            
+
             .stats-header {
                 padding: 20px;
             }
-            
+
             .stats-header h1 {
                 font-size: 1.5rem;
             }
-            
+
             .stats-header p {
                 font-size: 0.9rem;
             }
-            
+
             .stats-grid {
                 grid-template-columns: 1fr;
                 gap: 12px;
             }
-            
+
             .grade-section {
                 padding: 16px;
             }
-            
+
             .grade-section h3 {
                 font-size: 1.1rem;
             }
-            
+
             .room-stats-grid {
                 grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
                 gap: 6px;
             }
-            
+
             .room-stats-item {
                 padding: 8px 4px;
                 font-size: 0.75rem;
             }
-            
+
             .summary-stats {
                 grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
                 gap: 10px;
             }
-            
+
             .summary-stat {
                 padding: 16px;
             }
-            
+
             .summary-stat .number {
                 font-size: 1.5rem;
             }
-            
+
             .summary-stat .label {
                 font-size: 0.8rem;
             }
-            
+
             .back-to-login {
                 top: 10px;
                 right: 10px;
                 padding: 8px 16px;
                 font-size: 14px;
             }
-            
+
             .loading-content {
                 padding: 24px 20px;
                 margin: 20px;
             }
-            
+
             .loading-content h3 {
                 font-size: 1.1rem;
             }
-            
+
             .loading-content p {
                 font-size: 0.9rem;
             }
-            
+
             .room-tooltip {
                 max-width: 250px;
                 font-size: 0.75rem;
                 padding: 10px 12px;
             }
-            
+
             .room-stats-tooltip .tooltip-content {
                 max-width: 280px;
                 font-size: 0.7rem;
                 padding: 10px 12px;
             }
-            
+
             .action-buttons {
                 flex-direction: column;
                 gap: 8px;
             }
-            
+
             .action-buttons .btn {
                 width: 100%;
                 min-width: auto;
@@ -849,236 +1007,238 @@
                 font-size: 13px;
             }
         }
-        
+
         /* Small Devices (landscape phones, tablets, 481px and up) */
         @media (min-width: 481px) and (max-width: 768px) {
             .container {
                 padding: 16px;
             }
-            
+
             .login-card {
                 padding: 32px;
                 max-width: 400px;
             }
-            
+
             .login-card h1 {
                 font-size: 2rem;
             }
-            
+
             .header {
                 flex-direction: column;
                 text-align: center;
                 gap: 20px;
                 padding: 24px;
             }
-            
+
             .header-content h1 {
                 font-size: 1.75rem;
             }
-            
+
             .room-grid {
                 grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
                 gap: 10px;
             }
-            
+
             .room-item {
                 padding: 14px 10px;
             }
-            
+
             .selected-room-tags {
                 justify-content: center;
             }
-            
+
             .stats-grid {
                 grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
                 gap: 16px;
             }
-            
+
             .room-stats-grid {
                 grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
                 gap: 8px;
             }
-            
+
             .summary-stats {
                 grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
                 gap: 12px;
             }
-            
+
             .modal-content {
                 padding: 28px;
                 max-width: 450px;
             }
-            
+
             .modal-buttons {
                 flex-direction: row;
                 gap: 12px;
             }
         }
-        
+
         /* Medium Devices (tablets, 769px and up) */
         @media (min-width: 769px) and (max-width: 1024px) {
             .container {
                 padding: 20px;
             }
-            
+
             .login-card {
                 padding: 40px;
                 max-width: 450px;
             }
-            
+
             .header {
                 flex-direction: row;
                 padding: 28px;
             }
-            
+
             .room-grid {
                 grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
                 gap: 12px;
             }
-            
+
             .stats-grid {
                 grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
                 gap: 18px;
             }
-            
+
             .room-stats-grid {
                 grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
             }
-            
+
             .summary-stats {
                 grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
                 gap: 15px;
             }
         }
-        
+
         /* Large Devices (desktops, 1025px and up) */
         @media (min-width: 1025px) {
             .container {
                 max-width: 1200px;
                 padding: 20px;
             }
-            
+
             .room-grid {
                 grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
                 gap: 15px;
             }
-            
+
             .stats-container {
                 max-width: 1400px;
             }
-            
+
             .stats-grid {
                 grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
                 gap: 20px;
             }
         }
-        
+
         /* Extra Large Devices (large desktops, 1200px and up) */
         @media (min-width: 1200px) {
             .container {
                 max-width: 1400px;
             }
-            
+
             .room-grid {
                 grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
             }
-            
+
             .stats-grid {
                 grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
             }
         }
-        
+
         /* Landscape orientation adjustments */
         @media (orientation: landscape) and (max-height: 600px) {
             .login-container {
                 padding: 10px;
                 min-height: auto;
             }
-            
+
             .login-card {
                 padding: 20px;
                 margin: 10px auto;
             }
-            
+
             .login-card h1 {
                 font-size: 1.5rem;
                 margin-bottom: 8px;
             }
-            
+
             .login-card p {
                 margin-bottom: 20px;
             }
-            
+
             .header {
                 padding: 16px;
             }
-            
+
             .modal-content {
                 padding: 20px;
                 max-height: 90vh;
                 overflow-y: auto;
             }
         }
-        
+
         /* High DPI displays */
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        @media (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi) {
             .room-item {
                 border-width: 0.5px;
             }
-            
+
             .card {
                 border-width: 0.5px;
             }
-            
+
             .login-card {
                 border-width: 0.5px;
             }
         }
-        
+
         /* Touch device optimizations */
         @media (hover: none) and (pointer: coarse) {
             .btn {
-                min-height: 44px; /* iOS accessibility guideline */
+                min-height: 44px;
+                /* iOS accessibility guideline */
             }
-            
+
             .room-item {
                 min-height: 44px;
                 cursor: default;
             }
-            
+
             .tab {
                 min-height: 44px;
             }
-            
+
             .modal-btn {
                 min-height: 44px;
             }
-            
+
             .back-to-login {
                 min-height: 44px;
                 min-width: 44px;
             }
-            
+
             /* Remove hover effects on touch devices */
             .room-item:hover {
                 transform: none;
                 box-shadow: none;
             }
-            
+
             .btn:hover {
                 transform: none;
                 box-shadow: none;
             }
-            
+
             .tab:hover {
                 background: transparent;
             }
-            
+
             .room-stats-item:hover {
                 transform: none;
                 box-shadow: none;
             }
-            
+
             /* Show tooltips on touch */
             .room-tooltip {
                 opacity: 1;
@@ -1106,40 +1266,49 @@
             max-width: 1400px;
             margin: 20px auto;
             padding: 20px;
+            animation: fadeSlideUp .45s var(--ease-out) both;
         }
 
         .stats-header {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 32px;
+            background: var(--surface);
+            backdrop-filter: blur(24px) saturate(1.5);
+            -webkit-backdrop-filter: blur(24px) saturate(1.5);
+            border-radius: var(--radius-lg);
+            padding: 28px 32px;
             text-align: center;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 22px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--surface-border);
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 18px;
             margin-bottom: 20px;
         }
 
         .grade-section {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--surface);
+            backdrop-filter: blur(24px) saturate(1.5);
+            -webkit-backdrop-filter: blur(24px) saturate(1.5);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--surface-border);
+            transition: transform .2s var(--ease-spring), box-shadow .2s;
+        }
+
+        .grade-section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
         .grade-section h3 {
-            color: #2d3748;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-            border-bottom: 2px solid #667eea;
+            color: var(--gray-800);
+            margin-bottom: 14px;
+            font-size: 1.15rem;
+            border-bottom: 2px solid var(--primary-400);
             padding-bottom: 8px;
         }
 
@@ -1158,6 +1327,7 @@
             font-size: 0.8rem;
             transition: all 0.2s ease;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .room-stats-item.available {
@@ -1188,6 +1358,7 @@
             transform: translateX(-50%);
             background: rgba(45, 55, 72, 0.95);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             color: white;
             padding: 12px 16px;
             border-radius: 12px;
@@ -1217,49 +1388,58 @@
         }
 
         .summary-stat {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border-radius: 16px;
-            padding: 24px;
+            background: var(--surface);
+            backdrop-filter: blur(20px) saturate(1.4);
+            -webkit-backdrop-filter: blur(20px) saturate(1.4);
+            border-radius: var(--radius-md);
+            padding: 22px;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--surface-border);
+            transition: transform .2s var(--ease-spring), box-shadow .2s;
+        }
+
+        .summary-stat:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
         }
 
         .summary-stat .number {
             font-size: 2rem;
-            font-weight: 600;
-            color: #5a67d8;
-            margin-bottom: 8px;
-            letter-spacing: -0.025em;
+            font-weight: 700;
+            color: var(--primary-600);
+            margin-bottom: 6px;
+            letter-spacing: -0.03em;
         }
 
         .summary-stat .label {
-            color: #718096;
+            color: var(--gray-500);
             font-weight: 600;
+            font-size: 0.85rem;
         }
 
         .back-to-login {
             position: fixed;
-            top: max(20px, env(safe-area-inset-top, 20px));
-            right: max(20px, env(safe-area-inset-right, 20px));
-            background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%);
+            top: max(16px, env(safe-area-inset-top, 16px));
+            right: max(16px, env(safe-area-inset-right, 16px));
+            background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-500) 100%);
             color: white;
-            padding: 12px 24px;
+            padding: 10px 22px;
             border: none;
-            border-radius: 16px;
+            border-radius: var(--radius-md);
             cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            letter-spacing: 0.025em;
+            font-weight: 600;
+            font-size: 13px;
+            transition: transform .25s var(--ease-spring), box-shadow .25s;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 1000;
+            box-shadow: var(--shadow-md);
         }
 
         .back-to-login:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 25px rgba(90, 103, 216, 0.25);
-            background: linear-gradient(135deg, #4c51bf 0%, #5a67d8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(99, 102, 241, 0.3);
         }
 
         /* Subject Input Modal */
@@ -1269,30 +1449,35 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 10000;
+            animation: fadeIn .2s ease both;
         }
 
         .modal-content {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
+            background: var(--surface);
+            backdrop-filter: blur(24px) saturate(1.6);
+            -webkit-backdrop-filter: blur(24px) saturate(1.6);
+            border-radius: var(--radius-xl);
             padding: 32px;
             max-width: 500px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: modalSlideIn 0.25s ease-out;
+            width: 92%;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--surface-border);
+            animation: modalSlideIn .3s var(--ease-out) both;
         }
 
         @keyframes modalSlideIn {
             from {
                 opacity: 0;
-                transform: translateY(-50px) scale(0.9);
+                transform: translateY(-30px) scale(0.95);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
@@ -1301,18 +1486,20 @@
 
         .modal-header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
         }
 
         .modal-header h3 {
-            color: #2d3748;
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            color: var(--gray-900);
+            font-size: clamp(1.2rem, 3vw, 1.4rem);
+            margin-bottom: 8px;
+            font-weight: 700;
         }
 
         .modal-header p {
-            color: #718096;
-            font-size: 1rem;
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
 
         .modal-form {
@@ -1320,92 +1507,88 @@
         }
 
         .modal-form .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .modal-form label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 600;
-            color: #4a5568;
-            font-size: 1.1rem;
+            color: var(--gray-700);
+            font-size: 0.9rem;
         }
 
         .modal-form input,
         .modal-form select,
         .modal-form textarea {
             width: 100%;
-            padding: 16px 20px;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
+            padding: 13px 16px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: var(--radius-md);
             font-size: 16px;
-            transition: all 0.2s ease;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
+            transition: border-color .25s, box-shadow .25s, background .25s;
+            background: rgba(255, 255, 255, 0.7);
+            font-family: inherit;
         }
 
         .modal-form input:focus,
         .modal-form select:focus,
         .modal-form textarea:focus {
             outline: none;
-            border-color: #5a67d8;
-            box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.08);
-            background: rgba(255, 255, 255, 0.95);
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+            background: #fff;
         }
 
         .modal-buttons {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             justify-content: flex-end;
         }
 
         .modal-btn {
-            padding: 14px 28px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: 500;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
-            min-width: 100px;
-            letter-spacing: 0.025em;
+            transition: transform .25s var(--ease-spring), box-shadow .25s, background .2s;
+            min-width: 90px;
         }
 
         .modal-btn.primary {
-            background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%);
+            background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-500) 100%);
             color: white;
         }
 
         .modal-btn.primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 25px rgba(90, 103, 216, 0.25);
-            background: linear-gradient(135deg, #4c51bf 0%, #5a67d8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(99, 102, 241, 0.3);
         }
 
         .modal-btn.secondary {
-            background: #e2e8f0;
-            color: #4a5568;
+            background: var(--gray-100);
+            color: var(--gray-700);
         }
 
         .modal-btn.secondary:hover {
-            background: #cbd5e0;
+            background: var(--gray-200);
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         .selected-rooms-info {
-            background: rgba(230, 255, 250, 0.8);
-            border: 1px solid #81e6d9;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
+            background: rgba(236, 253, 245, 0.7);
+            border: 1.5px solid var(--accent-400);
+            border-radius: var(--radius-md);
+            padding: 18px;
+            margin-bottom: 18px;
         }
 
         .selected-rooms-info h4 {
-            color: #2d3748;
+            color: var(--gray-800);
             margin-bottom: 10px;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
         }
 
         .selected-rooms-list {
@@ -1415,16 +1598,16 @@
         }
 
         .selected-room-badge {
-            background: linear-gradient(135deg, #4fd1c7 0%, #38b2ac 100%);
+            background: linear-gradient(135deg, var(--accent-500) 0%, var(--accent-400) 100%);
             color: white;
-            padding: 8px 16px;
+            padding: 7px 14px;
             border-radius: 20px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
-            letter-spacing: 0.025em;
         }
     </style>
 </head>
+
 <body>
     <!-- Login Page -->
     <div id="login-page" class="login-container">
@@ -1442,18 +1625,22 @@
                 <button type="submit" class="btn" id="login-btn"><span>เข้าสู่ระบบ</span></button>
             </form>
             <div style="text-align: center; margin-top: 20px;">
-                <button type="button" class="btn" onclick="showStatistics()" style="background: #38a169; margin-top: 10px;">
+                <button type="button" class="btn" onclick="showStatistics()"
+                    style="background: #38a169; margin-top: 10px;">
                     📊 ดูสถิติการจองห้อง
                 </button>
-                <button type="button" class="btn" onclick="showTeacherDetails()" style="background: #3182ce; margin-top: 10px;">
+                <button type="button" class="btn" onclick="showTeacherDetails()"
+                    style="background: #3182ce; margin-top: 10px;">
                     📋 รายละเอียดการจองของครู
                 </button>
-                <div id="connection-status" style="margin-top: 15px; padding: 10px; border-radius: 8px; font-size: 14px;">
+                <div id="connection-status"
+                    style="margin-top: 15px; padding: 10px; border-radius: 8px; font-size: 14px;">
                     🔄 กำลังตรวจสอบการเชื่อมต่อ...
                 </div>
-                
+
                 <!-- Developer Info -->
-                <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(226, 232, 240, 0.5); text-align: center;">
+                <div
+                    style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(226, 232, 240, 0.5); text-align: center;">
                     <p style="font-size: 13px; color: #64748b; margin-bottom: 8px;">
                         <strong>พัฒนาเว็บไซต์โดย:</strong>
                     </p>
@@ -1471,18 +1658,29 @@
     <!-- Teacher Details Page -->
     <div id="teacher-details-page" class="hidden">
         <button class="back-to-login" onclick="backToLogin()">← กลับหน้า Login</button>
-        
+
         <div class="stats-container">
             <div class="stats-header">
                 <h1>📋 รายละเอียดการจองของครู</h1>
                 <p>แสดงข้อมูลรายบุคคลจากฐานข้อมูล Google Sheets</p>
+                <div style="margin-top: 15px;">
+                    <label for="details-year-filter" style="font-weight: 500; color: #4a5568;">ปีการศึกษา: </label>
+                    <select id="details-year-filter" onchange="generateTeacherDetailsList()"
+                        style="padding: 8px 16px; border-radius: 8px; border: 1px solid #cbd5e0; font-size: 16px; background: white;">
+                        <option value="all">ทั้งหมด</option>
+                        <option value="2568" selected>2568</option>
+                        <option value="2569">2569</option>
+                        <option value="2570">2570</option>
+                    </select>
+                </div>
             </div>
 
             <div id="teacher-list">
                 <!-- รายการครูจะแสดงที่นี่ด้วย JavaScript -->
             </div>
 
-            <div style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.8); border-radius: 16px; backdrop-filter: blur(10px);">
+            <div
+                style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.8); border-radius: 16px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
                 <p style="font-size: 13px; color: #64748b; margin-bottom: 8px;">
                     <strong>พัฒนาเว็บไซต์โดย:</strong>
                 </p>
@@ -1499,12 +1697,22 @@
     <!-- Statistics Page -->
     <div id="statistics-page" class="hidden">
         <button class="back-to-login" onclick="backToLogin()">← กลับหน้า Login</button>
-        
+
         <div class="stats-container">
-        <div class="stats-header">
-            <h1>📊 สถิติการจองห้องเรียน</h1>
-            <p>ข้อมูลการจองห้องเรียนเพื่อประเมินสมรรถนะ<br>โรงเรียนห้องสอนศึกษา ในพระอุปถัมภ์ฯ</p>
-        </div>
+            <div class="stats-header">
+                <h1>📊 สถิติการจองห้องเรียน</h1>
+                <p>ข้อมูลการจองห้องเรียนเพื่อประเมินสมรรถนะ<br>โรงเรียนห้องสอนศึกษา ในพระอุปถัมภ์ฯ</p>
+                <div style="margin-top: 15px;">
+                    <label for="stats-year-filter" style="font-weight: 500; color: #4a5568;">ปีการศึกษา: </label>
+                    <select id="stats-year-filter" onchange="loadStatistics()"
+                        style="padding: 8px 16px; border-radius: 8px; border: 1px solid #cbd5e0; font-size: 16px; background: white;">
+                        <option value="all">ทั้งหมด</option>
+                        <option value="2568" selected>2568</option>
+                        <option value="2569">2569</option>
+                        <option value="2570">2570</option>
+                    </select>
+                </div>
+            </div>
 
             <div class="summary-stats" id="summary-stats">
                 <!-- สถิติสรุปจะถูกสร้างด้วย JavaScript -->
@@ -1513,9 +1721,10 @@
             <div class="stats-grid" id="stats-grid">
                 <!-- สถิติแต่ละชั้นจะถูกสร้างด้วย JavaScript -->
             </div>
-            
+
             <!-- Developer Info for Statistics Page -->
-            <div style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.8); border-radius: 16px; backdrop-filter: blur(10px);">
+            <div
+                style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.8); border-radius: 16px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
                 <p style="font-size: 13px; color: #64748b; margin-bottom: 8px;">
                     <strong>พัฒนาเว็บไซต์โดย:</strong>
                 </p>
@@ -1558,7 +1767,7 @@
                 <div class="error-message" id="booking-error">
                     เกิดข้อผิดพลาดในการจองห้องเรียน
                 </div>
-                
+
                 <div class="room-grid" id="room-grid">
                     <!-- Rooms will be generated by JavaScript -->
                 </div>
@@ -1603,18 +1812,31 @@
             <form class="modal-form" id="subject-form">
                 <div class="form-group">
                     <label for="evaluation-subject">วิชาที่ใช้ประเมินสมรรถนะ</label>
-                    <input type="text" id="evaluation-subject" name="evaluation-subject" placeholder="กรุณากรอกชื่อวิชาที่ใช้ประเมินสมรรถนะ เช่น คณิตศาสตร์, วิทยาศาสตร์, ภาษาไทย" required>
+                    <input type="text" id="evaluation-subject" name="evaluation-subject"
+                        placeholder="กรุณากรอกชื่อวิชาที่ใช้ประเมินสมรรถนะ เช่น คณิตศาสตร์, วิทยาศาสตร์, ภาษาไทย"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="evaluation-year">ปีการศึกษา</label>
+                    <select id="evaluation-year" name="evaluation-year" required>
+                        <option value="2568" selected>2568</option>
+                        <option value="2569">2569</option>
+                        <option value="2570">2570</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
                     <label for="evaluation-notes">หมายเหตุเพิ่มเติม (ถ้ามี)</label>
-                    <textarea id="evaluation-notes" name="evaluation-notes" rows="3" placeholder="ระบุรายละเอียดเพิ่มเติมเกี่ยวกับการประเมิน..."></textarea>
+                    <textarea id="evaluation-notes" name="evaluation-notes" rows="3"
+                        placeholder="ระบุรายละเอียดเพิ่มเติมเกี่ยวกับการประเมิน..."></textarea>
                 </div>
             </form>
 
             <div class="modal-buttons">
                 <button type="button" class="modal-btn secondary" onclick="closeSubjectModal()">ยกเลิก</button>
-                <button type="button" class="modal-btn primary" onclick="confirmBookingWithSubject()">ยืนยันการจอง</button>
+                <button type="button" class="modal-btn primary"
+                    onclick="confirmBookingWithSubject()">ยืนยันการจอง</button>
             </div>
         </div>
     </div>
@@ -1647,17 +1869,40 @@
         let selectedRooms = new Set();
         let allTeachers = [];
 
+        // Helper to get booking year from a teacher record
+        function getBookingYear(teacher) {
+            if (teacher.subjectInfo && teacher.subjectInfo.notes) {
+                const match = teacher.subjectInfo.notes.match(/\[ปีการศึกษา\s(\d{4})\]/);
+                if (match) return match[1];
+            }
+            if (teacher.subjectInfo && teacher.subjectInfo.timestamp) {
+                const parts = teacher.subjectInfo.timestamp.split(' ');
+                if (parts[0]) {
+                    const dateParts = parts[0].split('/');
+                    if (dateParts.length === 3) return dateParts[2];
+                }
+            }
+            if (teacher.lastUpdated) {
+                const parts = teacher.lastUpdated.split(' ');
+                if (parts[0]) {
+                    const dateParts = parts[0].split('/');
+                    if (dateParts.length === 3) return dateParts[2];
+                }
+            }
+            return "unknown";
+        }
+
         // Loading Functions
         function showLoading(title = 'กำลังโหลด...', message = 'กรุณารอสักครู่', text = 'กำลังประมวลผล') {
             const overlay = document.getElementById('loading-overlay');
             const titleEl = document.getElementById('loading-title');
             const messageEl = document.getElementById('loading-message');
             const textEl = document.getElementById('loading-text');
-            
+
             titleEl.textContent = title;
             messageEl.textContent = message;
             textEl.textContent = text;
-            
+
             overlay.classList.add('show');
         }
 
@@ -1671,7 +1916,7 @@
             if (button) {
                 button.classList.add('loading');
                 button.disabled = true;
-                
+
                 // Wrap text content in span if not already wrapped
                 if (!button.querySelector('span')) {
                     button.innerHTML = `<span>${button.textContent}</span>`;
@@ -1684,7 +1929,7 @@
             if (button) {
                 button.classList.remove('loading');
                 button.disabled = false;
-                
+
                 if (originalText) {
                     button.innerHTML = originalText;
                 }
@@ -1693,7 +1938,7 @@
 
         // Generate room data based on actual school structure
         const rooms = [];
-        
+
         // ม.1 และ ม.2 มีอย่างละ 9 ห้อง
         for (let grade = 1; grade <= 2; grade++) {
             for (let section = 1; section <= 9; section++) {
@@ -1704,7 +1949,7 @@
                 });
             }
         }
-        
+
         // ม.3 มี 8 ห้อง
         for (let section = 1; section <= 8; section++) {
             rooms.push({
@@ -1713,7 +1958,7 @@
                 grade: 3
             });
         }
-        
+
         // ม.4, ม.5, ม.6 มีอย่างละ 10 ห้อง
         for (let grade = 4; grade <= 6; grade++) {
             for (let section = 1; section <= 10; section++) {
@@ -1725,19 +1970,69 @@
             }
         }
 
+        // Generates TEACHER_NAMES constant
+        const TEACHER_NAMES = {
+            "1": "นายประกิจ ผาติจิรโชติ",
+            "2": "นางบุษบง ชัยเทพ",
+            "3": "นางสาวจันทร์เพ็ญ ไพรเสถียรสุข",
+            "4": "นางพรรษชล ดารารัตติกาล",
+            "5": "นางสาวเมรินทร์ สิทธิบุญมี",
+            "6": "นางสาวณิชชาภัทร พนาสันติสุข",
+            "7": "นายสาธิต ศิริวัชน์",
+            "8": "นางสาวปัณฑ์ชนิต เอี่ยมต่อ",
+            "9": "นายนพพร สมบูรณ์ชัย",
+            "10": "นายทศพล แก้วสุยะ",
+            "11": "ว่าที่ร้อยตรีหญิงกัญญนิศชญา เนื้อนวลจันทร์",
+            "12": "นางสาวอินทราภรณ์ เพ็ญจิตต์",
+            "13": "นางสาวกัญญาภัค แสนอ้าย",
+            "14": "นายณัฐจักร์ ปันสุข",
+            "15": "นายธนพล ชาวสวน",
+            "16": "นางสาวมณฑิตา มังษา",
+            "17": "นายวัชรพล ศรีราช",
+            "18": "นางสาวนันท์นภัสร์ เรืองแก้วนพเก้า",
+            "19": "นางสาวณัฏฐ์ลิตา ศรีเมือง",
+            "20": "นางสาวจันทกานต์ สรานนท์วัชรกุล",
+            "21": "นางสาวนิรมล ผูกไมตรีสัมพันธ์",
+            "22": "นางภาวิณี พรหมฟัง",
+            "23": "ส.ต.ท.สุกฤษฏิ์ ไตรเดชาพงศ์",
+            "24": "นายกรฐนัท รอดเที่ยง",
+            "25": "นายภูวเนศ อิทธิสิริศักดิ์",
+            "26": "นายกฤษฎ์ แดงต่อม"
+        };
+
         // Load teachers data from Google Apps Script using JSONP
         function loadTeachersData() {
             return new Promise((resolve, reject) => {
                 try {
                     // Create JSONP callback
                     const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
-                    
-                    window[callbackName] = function(data) {
+
+                    window[callbackName] = function (data) {
                         delete window[callbackName];
                         document.body.removeChild(script);
-                        
+
                         if (data && data.success) {
-                            allTeachers = data.teachers || [];
+                            let gsTeachers = data.teachers || [];
+
+                            // Initialize with our hardcoded list to ensure all 26 teachers exist and use the new names
+                            allTeachers = Object.keys(TEACHER_NAMES).map(code => ({
+                                code: code,
+                                name: TEACHER_NAMES[code],
+                                originalCode: gsTeachers.find(t => parseInt(t.code, 10).toString() === code)?.code || String(code).padStart(5, '0'),
+                                bookedRooms: []
+                            }));
+
+                            // Merge in data from Google Sheets
+                            gsTeachers.forEach(gsTeacher => {
+                                const strippedCode = parseInt(gsTeacher.code, 10).toString();
+                                const teacher = allTeachers.find(t => t.code === strippedCode);
+                                if (teacher) {
+                                    teacher.bookedRooms = gsTeacher.bookedRooms || [];
+                                    teacher.lastUpdated = gsTeacher.lastUpdated;
+                                    teacher.subjectInfo = gsTeacher.subjectInfo;
+                                }
+                            });
+
                             console.log('Teachers data loaded from Google Sheets:', allTeachers);
                             mergeLocalStorageData();
                             resolve(true);
@@ -1745,18 +2040,18 @@
                             throw new Error(data ? data.error : 'No data received');
                         }
                     };
-                    
+
                     // Create script tag for JSONP
                     const script = document.createElement('script');
                     script.src = `${APPS_SCRIPT_CONFIG.WEB_APP_URL}?action=getTeachers&callback=${callbackName}`;
-                    script.onerror = function() {
+                    script.onerror = function () {
                         delete window[callbackName];
                         document.body.removeChild(script);
                         throw new Error('Script loading failed');
                     };
-                    
+
                     document.body.appendChild(script);
-                    
+
                     // Timeout after 10 seconds
                     setTimeout(() => {
                         if (window[callbackName]) {
@@ -1767,7 +2062,7 @@
                             throw new Error('Request timeout');
                         }
                     }, 10000);
-                    
+
                 } catch (error) {
                     console.error('Error loading teachers data from Google Sheets:', error);
                     console.log('Loading from localStorage instead...');
@@ -1781,29 +2076,35 @@
         function loadFromLocalStorage() {
             const localBookings = JSON.parse(localStorage.getItem('localBookings') || '[]');
             console.log('Local bookings found:', localBookings);
-            
+
+            // Create base list from TEACHER_NAMES
+            allTeachers = Object.keys(TEACHER_NAMES).map(code => ({
+                code: code,
+                name: TEACHER_NAMES[code],
+                originalCode: String(code).padStart(5, '0'),
+                bookedRooms: []
+            }));
+
             if (localBookings.length > 0) {
-                // Create teachers array from local data
-                allTeachers = localBookings.map(booking => ({
-                    code: booking.teacherCode,
-                    name: booking.teacherName,
-                    bookedRooms: booking.bookedRooms || []
-                }));
+                // Merge data into teachers array from local data
+                localBookings.forEach(booking => {
+                    const strippedCode = parseInt(booking.teacherCode, 10).toString();
+                    const teacher = allTeachers.find(t => t.code === strippedCode);
+                    if (teacher) {
+                        teacher.bookedRooms = booking.bookedRooms || [];
+                        if (booking.subjectInfo) teacher.subjectInfo = booking.subjectInfo;
+                    }
+                });
                 console.log('Teachers data loaded from localStorage:', allTeachers);
             } else {
-                // Use demo data if no local data
-                console.log('No local data found, using demo data');
-                allTeachers = [
-                    { code: '00001', name: 'ครูตัวอย่าง 1', bookedRooms: [] },
-                    { code: '00002', name: 'ครูตัวอย่าง 2', bookedRooms: [] }
-                ];
+                console.log('No local data found, using empty demo data structure');
             }
         }
 
         // Merge localStorage data with Google Sheets data
         function mergeLocalStorageData() {
             const localBookings = JSON.parse(localStorage.getItem('localBookings') || '[]');
-            
+
             localBookings.forEach(localBooking => {
                 const teacher = allTeachers.find(t => t.code === localBooking.teacherCode);
                 if (teacher && !localBooking.synced) {
@@ -1818,9 +2119,12 @@
         // Update teacher data via Google Apps Script
         async function updateTeacherData(teacherCode, bookedRooms) {
             try {
+                const teacher = allTeachers.find(t => t.code === teacherCode);
+                const apiCode = teacher ? teacher.originalCode : teacherCode;
+
                 const formData = new FormData();
                 formData.append('action', 'updateTeacher');
-                formData.append('teacherCode', teacherCode);
+                formData.append('teacherCode', apiCode);
                 formData.append('bookedRooms', bookedRooms.join(','));
 
                 const response = await fetch(APPS_SCRIPT_CONFIG.WEB_APP_URL, {
@@ -1833,7 +2137,7 @@
                 }
 
                 const data = await response.json();
-                
+
                 if (data.success) {
                     // Update local data
                     const teacher = allTeachers.find(t => t.code === teacherCode);
@@ -1853,9 +2157,12 @@
         // Update teacher data with subject information
         async function updateTeacherDataWithSubject(teacherCode, bookedRooms, subjectInfo) {
             try {
+                const teacher = allTeachers.find(t => t.code === teacherCode);
+                const apiCode = teacher ? teacher.originalCode : teacherCode;
+
                 console.log('Sending subject update request:', {
                     action: 'updateTeacherWithSubject',
-                    teacherCode: teacherCode,
+                    teacherCode: apiCode,
                     bookedRooms: bookedRooms,
                     subjectInfo: subjectInfo
                 });
@@ -1863,7 +2170,7 @@
                 // Use POST with form data
                 const formData = new FormData();
                 formData.append('action', 'updateTeacherWithSubject');
-                formData.append('teacherCode', teacherCode);
+                formData.append('teacherCode', apiCode);
                 formData.append('bookedRooms', bookedRooms.join(','));
                 formData.append('subject', subjectInfo.subject || '');
                 formData.append('notes', subjectInfo.notes || '');
@@ -1871,7 +2178,7 @@
 
                 console.log('Sending FormData:', {
                     action: 'updateTeacherWithSubject',
-                    teacherCode: teacherCode,
+                    teacherCode: apiCode,
                     bookedRooms: bookedRooms.join(','),
                     subject: subjectInfo.subject || '',
                     notes: subjectInfo.notes || ''
@@ -1890,7 +2197,7 @@
 
                 const data = await response.json();
                 console.log('Response data:', data);
-                
+
                 if (data.success) {
                     // Update local data
                     const teacher = allTeachers.find(t => t.code === teacherCode);
@@ -1908,46 +2215,47 @@
         }
 
         // Login functionality
-        document.getElementById('login-form').addEventListener('submit', async function(e) {
+        document.getElementById('login-form').addEventListener('submit', async function (e) {
             e.preventDefault();
-            
-            const teacherCode = document.getElementById('teacher-code').value.trim();
+
+            const rawCode = document.getElementById('teacher-code').value.trim();
+            const teacherCode = parseInt(rawCode, 10).toString(); // remove leading zeros if any
             const errorElement = document.getElementById('login-error');
-            
+
             // Show button loading
             showButtonLoading('login-btn');
-            
+
             // Show loading overlay
             showLoading('กำลังเข้าสู่ระบบ', 'กำลังตรวจสอบข้อมูลครู', 'เชื่อมต่อกับฐานข้อมูล');
-            
+
             try {
                 // Load teachers data if not already loaded
                 if (allTeachers.length === 0) {
                     await loadTeachersData();
                 }
-                
+
                 // Find teacher
                 const teacher = allTeachers.find(t => t.code === teacherCode);
-                
+
                 if (teacher) {
                     // Show success loading
                     showLoading('เข้าสู่ระบบสำเร็จ', `ยินดีต้อนรับ ${teacher.name}`, 'กำลังโหลดข้อมูล');
-                    
+
                     // Simulate loading time for better UX
                     await new Promise(resolve => setTimeout(resolve, 800));
-                    
+
                     currentTeacher = teacher;
                     document.getElementById('teacher-name-display').textContent = teacher.name;
                     document.getElementById('teacher-code-display').textContent = teacher.code;
-                    
+
                     // Hide login page and show main app
                     document.getElementById('login-page').classList.add('hidden');
                     document.getElementById('main-app').classList.remove('hidden');
-                    
+
                     // Initialize room grid
                     generateRoomGrid();
                     loadSummary();
-                    
+
                     errorElement.style.display = 'none';
                 } else {
                     errorElement.style.display = 'block';
@@ -1979,18 +2287,18 @@
                 const roomElement = document.createElement('div');
                 roomElement.className = 'room-item';
                 roomElement.dataset.roomId = room.id;
-                
+
                 // Get teachers who booked this room
                 const teachersInRoom = getRoomBookings(room.id);
                 const isBooked = teachersInRoom.length > 0;
-                
+
                 if (isBooked) {
                     roomElement.classList.add('booked');
                 }
-                
+
                 const statusText = isBooked ? `${teachersInRoom.length} ครู` : 'ว่าง';
                 let tooltipText = '';
-                
+
                 if (isBooked) {
                     tooltipText = teachersInRoom.map(t => {
                         let teacherInfo = `👨‍🏫 ${t.name}`;
@@ -2005,7 +2313,7 @@
                 } else {
                     tooltipText = 'ห้องว่าง - สามารถจองได้';
                 }
-                
+
                 roomElement.innerHTML = `
                     <div class="room-tooltip">${tooltipText}</div>
                     <h3>${room.name}</h3>
@@ -2020,7 +2328,7 @@
 
         // Get teachers who booked a specific room
         function getRoomBookings(roomId) {
-            return allTeachers.filter(teacher => 
+            return allTeachers.filter(teacher =>
                 teacher.bookedRooms && teacher.bookedRooms.includes(roomId)
             );
         }
@@ -2028,7 +2336,7 @@
         // Toggle room selection
         function toggleRoom(roomId) {
             const roomElement = document.querySelector(`[data-room-id="${roomId}"]`);
-            
+
             if (selectedRooms.has(roomId)) {
                 selectedRooms.delete(roomId);
                 roomElement.classList.remove('selected');
@@ -2036,7 +2344,7 @@
                 selectedRooms.add(roomId);
                 roomElement.classList.add('selected');
             }
-            
+
             updateSelectedRoomsDisplay();
             updateConfirmButton();
         }
@@ -2045,15 +2353,15 @@
         function updateSelectedRoomsDisplay() {
             const container = document.getElementById('selected-rooms-container');
             const tagsContainer = document.getElementById('selected-rooms-tags');
-            
+
             if (selectedRooms.size === 0) {
                 container.style.display = 'none';
                 return;
             }
-            
+
             container.style.display = 'block';
             tagsContainer.innerHTML = '';
-            
+
             selectedRooms.forEach(roomId => {
                 const tag = document.createElement('div');
                 tag.className = 'room-tag';
@@ -2084,7 +2392,7 @@
         // Load summary
         function loadSummary() {
             const container = document.getElementById('summary-content');
-            
+
             // Show inline loading
             container.innerHTML = `
                 <div style="text-align: center; padding: 20px;">
@@ -2092,21 +2400,21 @@
                     <p style="color: #64748b;">กำลังโหลดข้อมูลการจอง...</p>
                 </div>
             `;
-            
+
             // Simulate loading delay for better UX
             setTimeout(() => {
                 if (!currentTeacher || !currentTeacher.bookedRooms || currentTeacher.bookedRooms.length === 0) {
                     container.innerHTML = '<p style="text-align: center; color: #718096;">ยังไม่มีการจองห้องเรียน</p>';
                     return;
                 }
-                
+
                 loadSummaryContent();
             }, 500);
         }
 
         function loadSummaryContent() {
             const container = document.getElementById('summary-content');
-            
+
             const bookedRooms = currentTeacher.bookedRooms;
             let summaryHTML = `
                 <div class="summary-item">
@@ -2125,7 +2433,7 @@
                     </div>
                 </div>
             `;
-            
+
             // Add subject information if available
             if (currentTeacher.subjectInfo) {
                 const subjectInfo = currentTeacher.subjectInfo;
@@ -2162,7 +2470,7 @@
                     </div>
                 `;
             }
-            
+
             container.innerHTML = summaryHTML;
         }
 
@@ -2182,10 +2490,10 @@
 
             // Show selected tab content
             document.getElementById(tabName).classList.add('active');
-            
+
             // Add active class to clicked tab
             event.target.classList.add('active');
-            
+
             // Refresh summary if summary tab is selected
             if (tabName === 'summary') {
                 loadSummary();
@@ -2195,13 +2503,13 @@
         // Statistics functions
         async function showStatistics() {
             showLoading('กำลังโหลดสถิติ', 'กำลังดึงข้อมูลการจองทั้งหมด', 'วิเคราะห์ข้อมูล');
-            
+
             try {
                 document.getElementById('login-page').classList.add('hidden');
                 document.getElementById('statistics-page').classList.remove('hidden');
-                
+
                 await loadStatistics();
-                
+
                 // Simulate processing time for better UX
                 await new Promise(resolve => setTimeout(resolve, 600));
             } finally {
@@ -2257,7 +2565,13 @@
                 return;
             }
 
-            const teachersSorted = [...allTeachers].sort((a, b) => {
+            const yearFilter = document.getElementById('details-year-filter')?.value || 'all';
+
+            const teachersSorted = [...allTeachers].filter(t => {
+                if (yearFilter === 'all') return true;
+                if (!t.bookedRooms || t.bookedRooms.length === 0) return true; // Show unbooked teachers or skip? User might want to see them.
+                return getBookingYear(t) === yearFilter;
+            }).sort((a, b) => {
                 // Sort by name (Thai aware if available)
                 try { return a.name.localeCompare(b.name, 'th'); } catch (_) { return a.name.localeCompare(b.name); }
             });
@@ -2293,17 +2607,20 @@
 
         function generateSummaryStats() {
             const container = document.getElementById('summary-stats');
-            
+            const yearFilter = document.getElementById('stats-year-filter')?.value || 'all';
+
             const totalRooms = rooms.length;
             const bookedRooms = new Set();
             const totalBookings = allTeachers.reduce((sum, teacher) => {
-                if (teacher.bookedRooms) {
-                    teacher.bookedRooms.forEach(room => bookedRooms.add(room));
-                    return sum + teacher.bookedRooms.length;
+                if (teacher.bookedRooms && teacher.bookedRooms.length > 0) {
+                    if (yearFilter === 'all' || getBookingYear(teacher) === yearFilter) {
+                        teacher.bookedRooms.forEach(room => bookedRooms.add(room));
+                        return sum + teacher.bookedRooms.length;
+                    }
                 }
                 return sum;
             }, 0);
-            
+
             const availableRooms = totalRooms - bookedRooms.size;
             const bookingRate = totalRooms > 0 ? ((bookedRooms.size / totalRooms) * 100).toFixed(1) : 0;
 
@@ -2348,37 +2665,44 @@
             Object.keys(gradeRooms).sort((a, b) => parseInt(a) - parseInt(b)).forEach(grade => {
                 const gradeSection = document.createElement('div');
                 gradeSection.className = 'grade-section';
-                
+
                 const gradeRoomList = gradeRooms[grade];
-                const bookedCount = gradeRoomList.filter(room => getRoomBookings(room.id).length > 0).length;
-                
+                const yearFilter = document.getElementById('stats-year-filter')?.value || 'all';
+
+                // Helpers inside grade stats to compute bookings considering year
+                const getFilteredRoomBookings = (roomId) => {
+                    return getRoomBookings(roomId).filter(t => yearFilter === 'all' || getBookingYear(t) === yearFilter);
+                };
+
+                const bookedCount = gradeRoomList.filter(room => getFilteredRoomBookings(room.id).length > 0).length;
+
                 gradeSection.innerHTML = `
                     <h3>ม.${grade} (${bookedCount}/${gradeRoomList.length} ห้องมีการจอง)</h3>
                     <div class="room-stats-grid">
                         ${gradeRoomList.map(room => {
-                            const teachersInRoom = getRoomBookings(room.id);
-                            const isBooked = teachersInRoom.length > 0;
-                            const statusClass = isBooked ? 'booked' : 'available';
-                            let tooltipText = '';
-                            if (isBooked) {
-                                tooltipText = teachersInRoom.map(t => {
-                                    let teacherInfo = `👨‍🏫 ${t.name}`;
-                                    if (t.subjectInfo && t.subjectInfo.subject) {
-                                        teacherInfo += `<br>📚 วิชา: ${t.subjectInfo.subject}`;
-                                        if (t.subjectInfo.notes) {
-                                            teacherInfo += `<br>📝 หมายเหตุ: ${t.subjectInfo.notes}`;
-                                        }
-                                        if (t.subjectInfo.timestamp) {
-                                            teacherInfo += `<br>🕒 ${t.subjectInfo.timestamp}`;
-                                        }
-                                    }
-                                    return teacherInfo;
-                                }).join('<hr style="margin: 8px 0; border: none; border-top: 1px solid #e2e8f0;">');
-                            } else {
-                                tooltipText = 'ห้องว่าง';
+                    const teachersInRoom = getFilteredRoomBookings(room.id);
+                    const isBooked = teachersInRoom.length > 0;
+                    const statusClass = isBooked ? 'booked' : 'available';
+                    let tooltipText = '';
+                    if (isBooked) {
+                        tooltipText = teachersInRoom.map(t => {
+                            let teacherInfo = `👨‍🏫 ${t.name}`;
+                            if (t.subjectInfo && t.subjectInfo.subject) {
+                                teacherInfo += `<br>📚 วิชา: ${t.subjectInfo.subject}`;
+                                if (t.subjectInfo.notes) {
+                                    teacherInfo += `<br>📝 หมายเหตุ: ${t.subjectInfo.notes}`;
+                                }
+                                if (t.subjectInfo.timestamp) {
+                                    teacherInfo += `<br>🕒 ${t.subjectInfo.timestamp}`;
+                                }
                             }
-                            
-                            return `
+                            return teacherInfo;
+                        }).join('<hr style="margin: 8px 0; border: none; border-top: 1px solid #e2e8f0;">');
+                    } else {
+                        tooltipText = 'ห้องว่าง';
+                    }
+
+                    return `
                                 <div class="room-stats-item ${statusClass} room-stats-tooltip">
                                     <div class="tooltip-content">${tooltipText}</div>
                                     <div>${room.name}</div>
@@ -2387,10 +2711,10 @@
                                     </div>
                                 </div>
                             `;
-                        }).join('')}
+                }).join('')}
                     </div>
                 `;
-                
+
                 container.appendChild(gradeSection);
             });
         }
@@ -2398,7 +2722,7 @@
         // Show subject modal before confirming booking
         function confirmBooking() {
             if (selectedRooms.size === 0) return;
-            
+
             // Show the subject input modal
             showSubjectModal();
         }
@@ -2407,7 +2731,7 @@
         function showSubjectModal() {
             const modal = document.getElementById('subject-modal');
             const selectedRoomsList = document.getElementById('modal-selected-rooms');
-            
+
             // Display selected rooms in modal
             selectedRoomsList.innerHTML = '';
             selectedRooms.forEach(roomId => {
@@ -2416,10 +2740,10 @@
                 badge.textContent = `ม.${roomId}`;
                 selectedRoomsList.appendChild(badge);
             });
-            
+
             // Reset form
             document.getElementById('subject-form').reset();
-            
+
             // Show modal
             modal.classList.remove('hidden');
         }
@@ -2435,39 +2759,46 @@
         async function confirmBookingWithSubject() {
             const subjectInput = document.getElementById('evaluation-subject');
             const notes = document.getElementById('evaluation-notes');
-            
+
             // Validate subject input
             if (!subjectInput.value.trim()) {
                 alert('กรุณากรอกชื่อวิชาที่ใช้ประเมินสมรรถนะ');
                 return;
             }
-            
+
+            // Use the academic year to track the year of booking
+            const yearInput = document.getElementById('evaluation-year');
+            const academicYear = yearInput ? yearInput.value : '2568';
+
+            const originalNotes = notes.value.trim();
+            const finalNotes = originalNotes ? `[ปีการศึกษา ${academicYear}] ${originalNotes}` : `[ปีการศึกษา ${academicYear}]`;
+
             // Prepare subject information
             const subjectInfo = {
                 subject: subjectInput.value.trim(),
-                notes: notes.value.trim(),
+                notes: finalNotes,
                 rooms: Array.from(selectedRooms),
                 timestamp: new Date().toLocaleString('th-TH')
             };
-            
+
             // Close modal first
             closeSubjectModal();
-            
+
             // Show booking loading
             showLoading('กำลังจองห้องเรียน', 'กำลังบันทึกข้อมูลการจอง', 'เชื่อมต่อกับ Server');
-            
+
             const successElement = document.getElementById('booking-success');
             const errorElement = document.getElementById('booking-error');
-            
+
             try {
                 // Combine current booked rooms with new selections
                 const currentBookedRooms = currentTeacher.bookedRooms || [];
                 const newBookedRooms = [...new Set([...currentBookedRooms, ...selectedRooms])];
-                
+
                 // Try to update with subject information first, fallback to regular update
                 let success = false;
                 let updateMethod = 'none';
-                
+
                 try {
                     console.log('Trying subject update...');
                     success = await updateTeacherDataWithSubject(currentTeacher.code, newBookedRooms, subjectInfo);
@@ -2483,7 +2814,7 @@
                         console.log('Regular update also failed:', regularError);
                         // If both fail, use local storage as fallback
                         console.log('Using local storage as final fallback...');
-                        
+
                         // Save to local storage
                         const bookingData = {
                             teacherCode: currentTeacher.code,
@@ -2493,39 +2824,39 @@
                             timestamp: new Date().toISOString(),
                             synced: false
                         };
-                        
+
                         // Store in localStorage
                         let localBookings = JSON.parse(localStorage.getItem('localBookings') || '[]');
-                        
+
                         // Remove existing booking for this teacher
                         localBookings = localBookings.filter(booking => booking.teacherCode !== currentTeacher.code);
-                        
+
                         // Add new booking
                         localBookings.push(bookingData);
                         localStorage.setItem('localBookings', JSON.stringify(localBookings));
-                        
+
                         // Update current teacher data
                         const teacher = allTeachers.find(t => t.code === currentTeacher.code);
                         if (teacher) {
                             teacher.bookedRooms = newBookedRooms;
                         }
                         currentTeacher.bookedRooms = newBookedRooms;
-                        
+
                         success = true;
                         updateMethod = 'local';
                         console.log('Local storage update successful');
                     }
                 }
-                
+
                 console.log(`Update completed using: ${updateMethod}, success: ${success}`);
-                
+
                 if (success) {
                     // Hide loading first
                     hideLoading();
-                    
+
                     successElement.style.display = 'block';
                     errorElement.style.display = 'none';
-                    
+
                     // Show different messages based on update method
                     if (updateMethod === 'local') {
                         successElement.innerHTML = `
@@ -2546,7 +2877,7 @@
                     } else {
                         successElement.innerHTML = '✅ จองห้องเรียนสำเร็จแล้ว!';
                     }
-                    
+
                     // Clear selection
                     selectedRooms.clear();
                     document.querySelectorAll('.room-item.selected').forEach(el => {
@@ -2554,14 +2885,14 @@
                     });
                     updateSelectedRoomsDisplay();
                     updateConfirmButton();
-                    
+
                     // Refresh data and grid
                     if (updateMethod !== 'local') {
                         await loadTeachersData();
                     }
                     generateRoomGrid();
                     loadSummary();
-                    
+
                     // Hide success message after 5 seconds (longer for local update message)
                     setTimeout(() => {
                         successElement.style.display = 'none';
@@ -2584,7 +2915,7 @@
                 console.log('Testing connection to Google Apps Script...');
                 console.log('URL:', APPS_SCRIPT_CONFIG.WEB_APP_URL);
                 const statusElement = document.getElementById('connection-status');
-                
+
                 try {
                     statusElement.style.background = '#fff3cd';
                     statusElement.style.color = '#856404';
@@ -2594,15 +2925,15 @@
                             <span>กำลังตรวจสอบการเชื่อมต่อ...</span>
                         </div>
                     `;
-                    
+
                     const callbackName = 'test_callback_' + Math.round(100000 * Math.random());
-                    
-                    window[callbackName] = function(data) {
+
+                    window[callbackName] = function (data) {
                         delete window[callbackName];
                         document.body.removeChild(script);
-                        
+
                         console.log('Connection test successful:', data);
-                        
+
                         if (data && (data.success || data.teachers)) {
                             statusElement.style.background = '#d4edda';
                             statusElement.style.color = '#155724';
@@ -2612,17 +2943,17 @@
                             throw new Error('Invalid response data');
                         }
                     };
-                    
+
                     const script = document.createElement('script');
                     script.src = `${APPS_SCRIPT_CONFIG.WEB_APP_URL}?action=getTeachers&callback=${callbackName}`;
-                    script.onerror = function() {
+                    script.onerror = function () {
                         delete window[callbackName];
                         document.body.removeChild(script);
                         throw new Error('Script loading failed');
                     };
-                    
+
                     document.body.appendChild(script);
-                    
+
                     // Timeout after 5 seconds
                     setTimeout(() => {
                         if (window[callbackName]) {
@@ -2633,14 +2964,14 @@
                             throw new Error('Connection timeout');
                         }
                     }, 5000);
-                    
+
                 } catch (error) {
                     console.error('Connection test error:', error);
-                    
+
                     statusElement.style.background = '#f8d7da';
                     statusElement.style.color = '#721c24';
                     statusElement.innerHTML = `❌ ไม่สามารถเชื่อมต่อกับ Server<br><small>📱 ระบบจะทำงานในโหมด Offline</small>`;
-                    
+
                     resolve(false);
                 }
             });
@@ -2652,16 +2983,16 @@
                 alert('ไม่มีข้อมูลการจองที่จะแก้ไข');
                 return;
             }
-            
+
             // Switch to booking tab and pre-select rooms
             showTab('booking');
-            
+
             // Clear current selection
             selectedRooms.clear();
             document.querySelectorAll('.room-item.selected').forEach(el => {
                 el.classList.remove('selected');
             });
-            
+
             // Pre-select current booked rooms
             currentTeacher.bookedRooms.forEach(roomId => {
                 selectedRooms.add(roomId);
@@ -2670,11 +3001,11 @@
                     roomElement.classList.add('selected');
                 }
             });
-            
+
             // Update display
             updateSelectedRoomsDisplay();
             updateConfirmButton();
-            
+
             // Show message
             const successElement = document.getElementById('booking-success');
             successElement.style.display = 'block';
@@ -2682,7 +3013,7 @@
                 <strong>🔄 โหมดแก้ไขการจอง</strong><br>
                 <small>ห้องที่จองไว้ถูกเลือกแล้ว คุณสามารถเพิ่ม ลด หรือเปลี่ยนห้องได้</small>
             `;
-            
+
             // Hide after 5 seconds
             setTimeout(() => {
                 successElement.style.display = 'none';
@@ -2695,27 +3026,27 @@
                 alert('ไม่มีข้อมูลการจองที่จะลบ');
                 return;
             }
-            
+
             // Simple confirmation
             const confirmDelete = confirm(`ลบการจองห้องเรียนทั้งหมด?\n\n✅ ลบทีเดียวหายหมดเลย\n⚠️ ไม่สามารถย้อนกลับได้`);
-            
+
             if (!confirmDelete) {
                 return;
             }
-            
+
             // Show simple loading
             showLoading('กำลังลบ...', 'ลบข้อมูลทั้งหมด', 'กำลังดำเนินการ');
-            
+
             try {
                 // Delete from server
                 const success = await deleteTeacherBooking(currentTeacher.code);
-                
+
                 if (success) {
                     // Clear all data immediately
                     currentTeacher.bookedRooms = [];
                     currentTeacher.subjectInfo = null;
                     currentTeacher.lastUpdated = '';
-                    
+
                     // Update in allTeachers array
                     const teacherIndex = allTeachers.findIndex(t => t.code === currentTeacher.code);
                     if (teacherIndex !== -1) {
@@ -2723,20 +3054,20 @@
                         allTeachers[teacherIndex].subjectInfo = null;
                         allTeachers[teacherIndex].lastUpdated = '';
                     }
-                    
+
                     hideLoading();
-                    
+
                     // Refresh everything
                     generateRoomGrid();
                     loadSummary();
-                    
+
                     // Show simple success
                     alert('✅ ลบสำเร็จ!\nข้อมูลการจองหายหมดแล้ว');
-                    
+
                 } else {
                     throw new Error('ไม่สามารถลบข้อมูลได้');
                 }
-                
+
             } catch (error) {
                 console.error('Delete error:', error);
                 hideLoading();
@@ -2747,14 +3078,17 @@
         // Delete teacher booking from server - Simplified with better debugging
         async function deleteTeacherBooking(teacherCode) {
             try {
+                const teacher = allTeachers.find(t => t.code === teacherCode);
+                const apiCode = teacher ? teacher.originalCode : teacherCode;
+
                 console.log('=== DELETE REQUEST START ===');
-                console.log('Teacher Code:', teacherCode);
+                console.log('Teacher Code:', apiCode);
                 console.log('Apps Script URL:', APPS_SCRIPT_CONFIG.WEB_APP_URL);
-                
+
                 const formData = new FormData();
                 formData.append('action', 'deleteTeacher');
-                formData.append('teacherCode', teacherCode);
-                
+                formData.append('teacherCode', apiCode);
+
                 // Log FormData contents
                 console.log('FormData contents:');
                 for (let pair of formData.entries()) {
@@ -2777,10 +3111,10 @@
 
                 const responseText = await response.text();
                 console.log('Raw response text:', responseText);
-                
+
                 const data = JSON.parse(responseText);
                 console.log('Parsed response data:', data);
-                
+
                 if (data.success) {
                     console.log('Delete successful:', data.message);
                     console.log('=== DELETE REQUEST END (SUCCESS) ===');
@@ -2807,7 +3141,7 @@
         // Handle orientation change and resize
         function handleViewportChange() {
             setViewportHeight();
-            
+
             // Hide address bar on mobile browsers
             if (window.innerHeight < window.outerHeight) {
                 setTimeout(() => {
@@ -2831,17 +3165,17 @@
         function preventZoom() {
             const inputs = document.querySelectorAll('input, select, textarea');
             inputs.forEach(input => {
-                input.addEventListener('focus', function() {
+                input.addEventListener('focus', function () {
                     if (window.innerWidth < 768) {
-                        document.querySelector('meta[name="viewport"]').setAttribute('content', 
+                        document.querySelector('meta[name="viewport"]').setAttribute('content',
                             'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'
                         );
                     }
                 });
-                
-                input.addEventListener('blur', function() {
+
+                input.addEventListener('blur', function () {
                     if (window.innerWidth < 768) {
-                        document.querySelector('meta[name="viewport"]').setAttribute('content', 
+                        document.querySelector('meta[name="viewport"]').setAttribute('content',
                             'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover'
                         );
                     }
@@ -2850,23 +3184,24 @@
         }
 
         // Initialize app
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // App is ready to use
             console.log('App initialized and ready to use');
-            
+
             // Initialize viewport handling
             setViewportHeight();
             preventZoom();
-            
+
             // Test connection on load
             testConnection();
         });
 
         // Handle viewport changes
         window.addEventListener('resize', handleViewportChange);
-        window.addEventListener('orientationchange', function() {
+        window.addEventListener('orientationchange', function () {
             setTimeout(handleViewportChange, 100);
         });
     </script>
 </body>
+
 </html>
